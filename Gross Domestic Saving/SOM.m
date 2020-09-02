@@ -1,13 +1,17 @@
 clc
 clear all
 close all
+
 % loading data
 [D_num,D_txt]=xlsread('data2.xlsx'); % reading the data from the excel file [d1,d2]=size(D_txt); % recording the size of the total datatable labs=D_txt(2:d1,1); % extracting labels of observations for the future SOM vnames=D_txt(1,2:d2); % extracting variable names sD=som_data_struct(D_num,'labels',labs,'comp_names',vnames);
+
 % Normalization
 sD_norm=som_normalize(sD,'logistic');
+
 % Making SOM
 sMap=som_make(sD_norm);
 sMap = som_autolabel(sMap,sD_norm,'vote');
+
 % Vizualize & Analyze
 % Data statistics
 csS = som_stats(sMap);
@@ -51,6 +55,7 @@ title('Optimal # of clusters') % distance matrix subplot(1,3,2) som_cplane(sMap,
     subplot(1,3,3)
     som_cplane(sMap,cl)
     title('Clusters')
+
 % Statistics of clusters (optional, does not work properly with missing values)
 [V,I]=som_divide(sMap, sD, cl); % dividing SOM into defined earlier clusters
 for j=1:i
